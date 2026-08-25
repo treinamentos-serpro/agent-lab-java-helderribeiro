@@ -49,3 +49,26 @@ cd socops
 ```
 
 Deploys automatically to GitHub Pages on push to `main`.
+
+---
+
+## 🤖 AI Agent Development
+
+This workspace includes pre-configured **GitHub Copilot agents** for accelerated development:
+
+- **TDD Supervisor** — Orchestrate complete Test-Driven Development cycles
+- **Pixel Jam** — Design beautiful, creative UI components iteratively
+- **Quiz Master** — Generate custom icebreaker prompts for any theme
+- **Backend Testing** — Write comprehensive JUnit 5 + AssertJ tests
+- **UI Review** — Polish and validate UI for accessibility & performance
+
+### Quick Start
+
+→ **[🚀 AI Agent Quick Start Guide](.github/QUICKSTART.md)** ← Read this first!
+
+**For detailed agent documentation:**
+- [Agent Registry](.github/AGENTS.md) — All available agents & workflows
+- [Copilot Instructions](.github/copilot-instructions.md) — Project conventions
+- [Backend Patterns](.github/instructions/java-spring-patterns.instructions.md) — Java/Spring guidelines
+
+---
