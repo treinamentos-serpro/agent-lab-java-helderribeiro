@@ -12,27 +12,52 @@
 <!-- ============================================================= -->
 <!--  LOBBY — visible before a game starts                          -->
 <!-- ============================================================= -->
-<div id="lobbyView" class="lobby-shell flex flex-col items-center justify-center min-h-full p-6">
-    <div class="lobby-content text-center max-w-sm">
-        <p class="eyebrow">SOCIAL BINGO / 01</p>
-        <h1 class="brand-title font-bold">Soc Ops</h1>
-        <p class="lobby-subtitle">A little structure for better conversations.</p>
+<div id="lobbyView" class="lobby-shell flex flex-col items-center justify-center min-h-full">
+    <div class="invite-card">
 
-        <div class="how-to-play rounded-lg p-6 mb-8">
-            <div class="section-label">THE BRIEF</div>
-            <h2 class="font-semibold mb-3">Make the room smaller.</h2>
-            <ul class="text-left text-sm space-y-2">
-                <li><span>01</span> Find people who match the questions</li>
-                <li><span>02</span> Tap a square when you find a match</li>
-                <li><span>03</span> Get five in a row to win</li>
-            </ul>
-        </div>
+        <!-- masthead -->
+        <header class="invite-masthead">
+            <p class="eyebrow invite-eyebrow">SOCIAL BINGO &mdash; AN IN-PERSON EVENT</p>
+            <h1 class="brand-title font-bold">Soc<br/>Ops</h1>
+            <p class="invite-dateline">You are in the room. <em>So is everyone else.</em></p>
+        </header>
 
-        <button onclick="launchGame()"
-                class="launch-button w-full font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
-            <span>Start a round</span><span class="button-arrow">&#8594;</span>
-        </button>
-        <p class="lobby-footnote">Five by five. One shared room.</p>
+        <!-- narrative three-act sequence -->
+        <ol class="invite-sequence" aria-label="How to play">
+            <li class="invite-act">
+                <div class="act-number" aria-hidden="true">I</div>
+                <div class="act-body">
+                    <p class="act-heading">Look around the room</p>
+                    <p class="act-copy">Each square on your board is a prompt. Find a person here who fits it.</p>
+                </div>
+            </li>
+            <li class="invite-act">
+                <div class="act-number" aria-hidden="true">II</div>
+                <div class="act-body">
+                    <p class="act-heading">Tap to mark the moment</p>
+                    <p class="act-copy">When you find your match, tap the square. The conversation already happened &mdash; this is just the record.</p>
+                </div>
+            </li>
+            <li class="invite-act">
+                <div class="act-number" aria-hidden="true">III</div>
+                <div class="act-body">
+                    <p class="act-heading">Five in a row wins the round</p>
+                    <p class="act-copy">First to line up five &mdash; row, column, or diagonal &mdash; calls it. Then keep playing.</p>
+                </div>
+            </li>
+        </ol>
+
+        <!-- CTA -->
+        <footer class="invite-footer">
+            <button onclick="launchGame()"
+                    class="launch-button w-full font-semibold rounded-lg transition-colors"
+                    aria-label="Open your board and start the round">
+                <span class="launch-label">Open the round</span>
+                <span class="button-arrow" aria-hidden="true">&#8594;</span>
+            </button>
+            <p class="lobby-footnote">Five by five &mdash; one shared room.</p>
+        </footer>
+
     </div>
 </div>
 
