@@ -222,7 +222,7 @@ button:focus-visible {
 }
 
 .lobby-content {
-    width: min(100%, 25rem);
+    width: min(100%, 28rem);
     animation: reveal-up 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
@@ -332,4 +332,86 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: 0.01ms !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+}
+
+/* ── lobby board preview ─────────────────────────────────────── */
+.preview-stage {
+    margin: 0 auto 2rem;
+    width: min(100%, 22rem);
+}
+
+.preview-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.28rem;
+    margin-bottom: 0.6rem;
+}
+
+.preview-tile {
+    aspect-ratio: 1 / 1;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 0.35rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0.2rem;
+    transition: background 200ms ease, border-color 200ms ease, color 200ms ease, transform 160ms ease;
+    animation: preview-in 400ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.preview-tile span {
+    font-size: clamp(0.42rem, 1.5vw, 0.6rem);
+    line-height: 1.2;
+    text-align: center;
+    white-space: pre-line;
+    word-break: break-word;
+    hyphens: auto;
+    pointer-events: none;
+}
+
+/* hover — communicates interactivity without simulating real gameplay */
+.preview-tile:hover,
+.preview-tile--focus {
+    background: var(--panel-raised);
+    border-color: var(--line-bright);
+    color: var(--paper);
+    transform: translateY(-2px);
+}
+
+/* demo-marked state — shows what a "found match" looks like */
+.preview-tile--marked {
+    background: var(--green-wash);
+    border-color: var(--green);
+    color: var(--green);
+}
+
+/* free space */
+.preview-tile--free {
+    background: var(--panel-raised);
+    border-color: var(--line-bright);
+    color: var(--paper);
+    font-weight: 700;
+}
+
+.preview-caption {
+    color: var(--muted-dim);
+    font-family: "Courier New", monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0;
+}
+
+@keyframes preview-in {
+    from { opacity: 0; transform: scale(0.85); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 520px) {
+    .preview-stage { width: min(100%, 18rem); }
+    .preview-tile { border-radius: 0.2rem; }
 }

@@ -13,11 +13,19 @@
 <!--  LOBBY — visible before a game starts                          -->
 <!-- ============================================================= -->
 <div id="lobbyView" class="lobby-shell flex flex-col items-center justify-center min-h-full p-6">
-    <div class="lobby-content text-center max-w-sm">
+    <div class="lobby-content text-center">
         <p class="eyebrow">SOCIAL BINGO / 01</p>
         <h1 class="brand-title font-bold">Soc Ops</h1>
         <p class="lobby-subtitle">A little structure for better conversations.</p>
 
+        <!-- 5×5 board preview — purely decorative, communicates the game loop -->
+        <!-- The grid itself is aria-hidden; the visible caption is outside    -->
+        <div class="preview-stage" aria-hidden="true">
+            <div class="preview-grid grid grid-cols-5" id="previewGrid">
+                <!-- 25 cells injected by JS below -->
+            </div>
+        </div>
+        <p class="preview-caption">hover a square — find a match — get five in a row</p>
         <div class="how-to-play rounded-lg p-6 mb-8">
             <div class="section-label">THE BRIEF</div>
             <h2 class="font-semibold mb-3">Make the room smaller.</h2>
@@ -287,6 +295,7 @@
 
     /* ── public API (called from onclick attrs) ───────────────── */
     window.launchGame = function () {
+        clearInterval(previewIntervalId);
         fetch("/api/bingo/fresh-board")
             .then(function (resp) { return resp.json(); })
             .then(function (cells) {
@@ -314,6 +323,63 @@
         overlayDiv.style.display = "none";
         persistSnapshot();
     };
+
+    /* ── lobby preview board ──────────────────────────────────── */
+    function buildPreview() {
+        var pg = document.getElementById("previewGrid");
+        if (!pg) { return null; }
+
+        /* Sparse demo labels that hint at real prompt variety */
+        var demoLabels = [
+            "Speaks 3+\nlanguages", "Has a\npet",       "Plays\nan instrument", "Loves\ncooking",  "Morning\nperson",
+            "Traveled\nabroad",     "Reads\nfiction",    "Works\nremotely",     "Night\nowl",       "Has twins\nin family",
+            "Runs\nmarathons",      "Hates\ncoriander",  "FREE",                "Learned\nto code", "Owns\na bike",
+            "Tea\nnot coffee",      "Grew up\non a farm", "Plays\nchess",        "Has moved\ncity",  "Speaks\nin memes",
+            "Naps\ndaily",          "Cries at\nmovies",  "Started\na business", "Has lived\nabroad", "Can solve\nRubik's"
+        ];
+
+        /* Indices that are pre-staged in the demo */
+        var demoMarked = { 12: "free", 6: true, 18: true };
+        /* Index that starts with the focus highlight */
+        var demoHoverIdx = 1;
+
+        for (var i = 0; i < 25; i++) {
+            var cell = document.createElement("div");
+            cell.className = "preview-tile";
+
+            if (demoMarked[i] === "free") {
+                cell.classList.add("preview-tile--free");
+            } else if (demoMarked[i]) {
+                cell.classList.add("preview-tile--marked");
+            }
+            if (i === demoHoverIdx) {
+                cell.classList.add("preview-tile--focus");
+            }
+
+            /* staggered reveal delay */
+            cell.style.animationDelay = (i * 18) + "ms";
+
+            var span = document.createElement("span");
+            span.textContent = demoLabels[i] || "";
+            cell.appendChild(span);
+
+            pg.appendChild(cell);
+        }
+
+        /* Cycle the focus hint every 2 s to communicate interactivity */
+        var focusCandidates = [0, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24];
+        var focusCurrent = demoHoverIdx;
+        var intervalId = setInterval(function () {
+            var cells = pg.querySelectorAll(".preview-tile");
+            cells[focusCurrent].classList.remove("preview-tile--focus");
+            var candidates = focusCandidates.filter(function (idx) { return idx !== focusCurrent; });
+            focusCurrent = candidates[Math.floor(Math.random() * candidates.length)];
+            cells[focusCurrent].classList.add("preview-tile--focus");
+        }, 2000);
+        return intervalId;
+    }
+
+    var previewIntervalId = buildPreview();
 
     /* ── boot ─────────────────────────────────────────────────── */
     if (restoreSnapshot()) {
