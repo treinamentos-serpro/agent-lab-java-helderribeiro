@@ -6,69 +6,67 @@
     <title>Soc Ops — Social Bingo</title>
     <link rel="stylesheet" th:href="@{/css/app.css}"/>
     <link rel="icon" type="image/png" th:href="@{/favicon.png}"/>
-    <style>
-        /* active-state tweaks that need pseudo-class selectors */
-        .tile-active:active { background-color: #f3f4f6 !important; }
-        .accent-active:active { background-color: #3b82f6 !important; }
-    </style>
 </head>
 <body class="h-full">
 
 <!-- ============================================================= -->
 <!--  LOBBY — visible before a game starts                          -->
 <!-- ============================================================= -->
-<div id="lobbyView" class="flex flex-col items-center justify-center min-h-full p-6 bg-gray-50">
-    <div class="text-center max-w-sm">
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">Soc Ops</h1>
-        <p class="text-lg text-gray-600 mb-8">Social Bingo</p>
+<div id="lobbyView" class="lobby-shell flex flex-col items-center justify-center min-h-full p-6">
+    <div class="lobby-content text-center max-w-sm">
+        <p class="eyebrow">SOCIAL BINGO / 01</p>
+        <h1 class="brand-title font-bold">Soc Ops</h1>
+        <p class="lobby-subtitle">A little structure for better conversations.</p>
 
-        <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mb-8">
-            <h2 class="font-semibold text-gray-800 mb-3">How to play</h2>
-            <ul class="text-left text-gray-600 text-sm space-y-2">
-                <li>• Find people who match the questions</li>
-                <li>• Tap a square when you find a match</li>
-                <li>• Get 5 in a row to win!</li>
+        <div class="how-to-play rounded-lg p-6 mb-8">
+            <div class="section-label">THE BRIEF</div>
+            <h2 class="font-semibold mb-3">Make the room smaller.</h2>
+            <ul class="text-left text-sm space-y-2">
+                <li><span>01</span> Find people who match the questions</li>
+                <li><span>02</span> Tap a square when you find a match</li>
+                <li><span>03</span> Get five in a row to win</li>
             </ul>
         </div>
 
         <button onclick="launchGame()"
-                class="w-full bg-accent text-white font-semibold py-4 px-8 rounded-lg text-lg accent-active transition-colors">
-            Start Game
+                class="launch-button w-full font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
+            <span>Start a round</span><span class="button-arrow">&#8594;</span>
         </button>
+        <p class="lobby-footnote">Five by five. One shared room.</p>
     </div>
 </div>
 
 <!-- ============================================================= -->
 <!--  ACTIVE GAME — board, header, optional bingo banner            -->
 <!-- ============================================================= -->
-<div id="activeView" class="flex flex-col min-h-full bg-gray-50" style="display:none">
+<div id="activeView" class="game-shell flex flex-col min-h-full" style="display:none">
 
     <!-- top bar -->
-    <header class="flex items-center justify-between p-3 bg-white border-b border-gray-200">
+    <header class="game-header flex items-center justify-between p-3">
         <button onclick="retreatToLobby()"
-                class="text-gray-500 text-sm px-3 py-1\.5 rounded tile-active">
-            &#8592; Back
+                class="back-button text-sm px-3 py-1\.5 rounded tile-active">
+            <span>&#8592;</span> Exit round
         </button>
-        <h1 class="font-bold text-gray-900">Soc Ops</h1>
-        <div class="w-16"></div>
+        <h1 class="game-wordmark font-bold">SOC OPS</h1>
+        <div class="round-meta">ROUND <span>01</span></div>
     </header>
 
     <!-- hint -->
-    <p class="text-center text-gray-500 text-sm py-2 px-4">
-        Tap a square when you find someone who matches it.
+    <p class="game-hint text-center text-sm py-2 px-4">
+        <span class="hint-dot"></span> Tap a square when you find someone who matches it.
     </p>
 
     <!-- bingo banner (hidden until victory) -->
-    <div id="bingoBanner"
-         class="bg-amber-100 text-amber-800 text-center py-2 font-semibold text-sm"
+        <div id="bingoBanner"
+            class="bingo-banner text-center py-2 font-semibold text-sm"
          style="display:none">
         &#127881; BINGO! You got a line!
     </div>
 
     <!-- the 5×5 grid -->
-    <div class="flex-1 flex items-center justify-center p-3">
+    <div class="board-stage flex-1 flex items-center justify-center p-3">
         <div id="gridContainer"
-             class="grid grid-cols-5 gap-1 w-full max-w-md mx-auto aspect-square">
+             class="bingo-grid grid grid-cols-5 gap-1 w-full max-w-md mx-auto aspect-square">
             <!-- tiles injected by JS -->
         </div>
     </div>
@@ -78,15 +76,16 @@
 <!--  VICTORY MODAL — overlays the board                            -->
 <!-- ============================================================= -->
 <div id="victoryOverlay"
-     class="fixed inset-0 bg-black\/50 flex items-center justify-center p-4 z-50"
+    class="victory-backdrop fixed inset-0 flex items-center justify-center p-4 z-50"
      style="display:none">
-    <div class="bg-white rounded-xl p-6 max-w-xs w-full text-center shadow-xl animate-[bounce_0.5s_ease-out]">
-        <div class="text-5xl mb-4">&#127881;</div>
-        <h2 class="text-3xl font-bold text-amber-500 mb-2">BINGO!</h2>
-        <p class="text-gray-600 mb-6">You completed a line!</p>
+    <div class="victory-dialog rounded-xl p-6 max-w-xs w-full text-center shadow-xl animate-[bounce_0.5s_ease-out]">
+        <div class="victory-mark text-5xl mb-4">&#10038;</div>
+        <p class="eyebrow">LINE COMPLETE</p>
+        <h2 class="victory-title text-3xl font-bold mb-2">BINGO!</h2>
+        <p class="victory-copy mb-6">You completed a line.</p>
         <button onclick="dismissVictoryModal()"
-                class="w-full bg-accent text-white font-semibold py-3 px-6 rounded-lg accent-active transition-colors">
-            Keep Playing
+                class="continue-button w-full font-semibold py-3 px-6 rounded-lg transition-colors">
+            Keep playing <span class="button-arrow">&#8594;</span>
         </button>
     </div>
 </div>
@@ -134,20 +133,20 @@
             var btn = document.createElement("button");
 
             /* base styling identical to the original Blazor BingoSquare */
-            var base = "relative flex items-center justify-center p-1 text-center " +
-                       "border border-gray-300 rounded transition-all duration-150 " +
-                       "select-none min-h-[60px] text-xs leading-tight";
+            var base = "bingo-tile relative flex items-center justify-center p-1 text-center " +
+                       "border rounded transition-all duration-150 select-none " +
+                       "min-h-[60px] text-xs leading-tight";
 
             var state;
             if (tile.selected) {
                 state = winIds[tile.id]
-                    ? "bg-amber-200 border-amber-400 text-amber-900"
-                    : "bg-marked border-marked-border text-green-800";
+                    ? "tile-winning"
+                    : "tile-marked";
             } else {
-                state = "bg-white text-gray-700 tile-active";
+                state = "tile-idle tile-active";
             }
 
-            var extra = tile.freeCell ? " font-bold text-sm" : "";
+            var extra = tile.freeCell ? " tile-free font-bold text-sm" : "";
             btn.className = base + " " + state + extra;
 
             if (tile.freeCell) { btn.disabled = true; }
@@ -163,7 +162,7 @@
             /* check-mark for marked non-free tiles */
             if (tile.selected && !tile.freeCell) {
                 var tick = document.createElement("span");
-                tick.className = "absolute top-0.5 right-0.5 text-green-600 text-xs";
+                tick.className = "tile-check absolute top-0.5 right-0.5 text-xs";
                 tick.textContent = "\u2713";
                 btn.appendChild(tick);
             }

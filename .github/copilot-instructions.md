@@ -179,6 +179,38 @@ When designing UI/UX:
 - Ensure accessibility (WCAG 2.1 AA minimum)
 - Test on mobile devices (responsive design)
 
+### SocOps Design Guide
+
+The product uses a fixed dark editorial visual language. New UI work should feel like a
+considered social game interface: warm, legible, slightly unexpected, and never like a
+generic dashboard.
+
+- **Palette**: Use graphite and near-black surfaces as the foundation, warm ivory for primary
+  text, muted gray for supporting text, and electric orange for actions, focus, and victory.
+  Green is reserved for selected cells and successful progress. Define colors as CSS variables
+  before using them in components.
+- **Typography**: Use a serif display face for the Soc Ops wordmark and major moments, a
+  readable sans-serif for instructions, and a monospace face for labels, counters, and small
+  metadata. Avoid default system-only typography for prominent UI.
+- **Composition**: Prefer strong hierarchy, generous breathing room, thin borders, and
+  restrained surfaces over nested cards or decorative panels. Use subtle grid or paper-like
+  texture to give dark backgrounds depth without reducing contrast.
+- **Game board**: Preserve the 5x5 grid, the pre-selected center free space, and clear visual
+  differences between idle, selected, free, and winning cells. Prompts must wrap cleanly on
+  narrow screens and tile dimensions must remain stable while states change.
+- **Interaction states**: Every interactive control needs visible hover, active, keyboard-focus,
+  disabled, and selected states where applicable. Use `:focus-visible` with an outline that
+  remains visible against dark surfaces. Keep labels and ARIA attributes meaningful.
+- **Motion**: Use a small number of purposeful transitions, such as lobby reveal, tile lift,
+  and victory emphasis. Respect `prefers-reduced-motion` and avoid animation that competes with
+  the prompt text or game state.
+- **Responsive behavior**: Design for touch first without sacrificing desktop readability.
+  Test long prompts, the 5x5 board, modal content, and header controls at mobile widths before
+  considering the interface complete.
+- **Scope**: Keep presentation changes in `game.html` and `app.css` unless behavior genuinely
+  requires another layer. Do not add theme toggles, multiplayer controls, or unsupported game
+  actions as part of a visual redesign.
+
 ---
 
 ## 📚 Workshop Modules
