@@ -12,27 +12,65 @@
 <!-- ============================================================= -->
 <!--  LOBBY — visible before a game starts                          -->
 <!-- ============================================================= -->
-<div id="lobbyView" class="lobby-shell flex flex-col items-center justify-center min-h-full p-6">
-    <div class="lobby-content text-center max-w-sm">
-        <p class="eyebrow">SOCIAL BINGO / 01</p>
-        <h1 class="brand-title font-bold">Soc Ops</h1>
-        <p class="lobby-subtitle">A little structure for better conversations.</p>
+<div id="lobbyView" class="lobby-shell min-h-full flex items-center justify-center p-6">
+    <div class="lobby-split">
 
-        <div class="how-to-play rounded-lg p-6 mb-8">
-            <div class="section-label">THE BRIEF</div>
-            <h2 class="font-semibold mb-3">Make the room smaller.</h2>
-            <ul class="text-left text-sm space-y-2">
-                <li><span>01</span> Find people who match the questions</li>
-                <li><span>02</span> Tap a square when you find a match</li>
-                <li><span>03</span> Get five in a row to win</li>
-            </ul>
+        <!-- ── left: editorial brand + instructions ── -->
+        <div class="lobby-editorial">
+            <p class="eyebrow lobby-eyebrow">SOCIAL BINGO / 01</p>
+            <h1 class="brand-title font-bold">Soc<br>Ops</h1>
+            <p class="lobby-subtitle">A little structure<br>for better conversations.</p>
+
+            <ol class="lobby-steps" aria-label="How to play">
+                <li><span class="step-num">01</span><span class="step-text">Find people who match the questions</span></li>
+                <li><span class="step-num">02</span><span class="step-text">Tap a square when you find a match</span></li>
+                <li><span class="step-num">03</span><span class="step-text">Get five in a row to win</span></li>
+            </ol>
+
+            <button onclick="launchGame()"
+                    class="launch-button font-semibold py-4 px-8 rounded-lg text-lg transition-colors"
+                    aria-label="Start a new round">
+                <span>Start a round</span><span class="button-arrow" aria-hidden="true">&#8594;</span>
+            </button>
+            <p class="lobby-footnote">Five by five. One shared room.</p>
         </div>
 
-        <button onclick="launchGame()"
-                class="launch-button w-full font-semibold py-4 px-8 rounded-lg text-lg transition-colors">
-            <span>Start a round</span><span class="button-arrow">&#8594;</span>
-        </button>
-        <p class="lobby-footnote">Five by five. One shared room.</p>
+        <!-- ── right: decorative 5×5 board preview ── -->
+        <div class="lobby-board-wrap" aria-hidden="true">
+            <div class="lobby-board-preview">
+                <div class="lbp-cell lbp-idle">Find someone<br>who cooks</div>
+                <div class="lbp-cell lbp-idle">Early bird<br>or night owl</div>
+                <div class="lbp-cell lbp-marked">Speaks two<br>languages</div>
+                <div class="lbp-cell lbp-idle">Remote<br>worker</div>
+                <div class="lbp-cell lbp-idle">Pet<br>owner</div>
+
+                <div class="lbp-cell lbp-idle">Has lived<br>abroad</div>
+                <div class="lbp-cell lbp-marked">Coffee<br>addict</div>
+                <div class="lbp-cell lbp-idle">Plays a<br>sport</div>
+                <div class="lbp-cell lbp-idle">Reads<br>daily</div>
+                <div class="lbp-cell lbp-marked">Side<br>project</div>
+
+                <div class="lbp-cell lbp-idle">Loves<br>hiking</div>
+                <div class="lbp-cell lbp-idle">Board game<br>fan</div>
+                <div class="lbp-cell lbp-free">FREE</div>
+                <div class="lbp-cell lbp-idle">Public<br>speaker</div>
+                <div class="lbp-cell lbp-idle">Vegetarian<br>or vegan</div>
+
+                <div class="lbp-cell lbp-marked">Plays a<br>musical inst.</div>
+                <div class="lbp-cell lbp-idle">Morning<br>runner</div>
+                <div class="lbp-cell lbp-idle">Tea over<br>coffee</div>
+                <div class="lbp-cell lbp-marked">Works in<br>tech</div>
+                <div class="lbp-cell lbp-idle">DIY<br>enthusiast</div>
+
+                <div class="lbp-cell lbp-idle">Avid<br>traveller</div>
+                <div class="lbp-cell lbp-idle">Dog<br>person</div>
+                <div class="lbp-cell lbp-idle">Night<br>market fan</div>
+                <div class="lbp-cell lbp-idle">Writes a<br>journal</div>
+                <div class="lbp-cell lbp-idle">Volunteers<br>regularly</div>
+            </div>
+            <p class="lbp-caption">Your board — shuffled fresh each round</p>
+        </div>
+
     </div>
 </div>
 
